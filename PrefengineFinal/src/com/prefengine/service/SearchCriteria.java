@@ -18,6 +18,7 @@ public class SearchCriteria {
 	private String travelTimePreference;
 	private float maxPrice;
 	private float minPrice;
+	private String fuzzyString;
 	
 	public String getDeparture() {
 		return departure;
@@ -121,5 +122,12 @@ public class SearchCriteria {
 	public void setMinPrice(float minPrice) {
 		this.minPrice = minPrice;
 	}
+	public String getFuzzyString() {
+		return fuzzyString;
+	}
+	public void setFuzzyString(String fuzzyString) {
+		this.fuzzyString = fuzzyString;
+	}
+	
 	
 }

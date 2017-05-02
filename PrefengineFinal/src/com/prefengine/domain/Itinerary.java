@@ -25,6 +25,8 @@ public class Itinerary {
 	private String coach;
 	private String departureTime;
 	private String arrivalTime;
+	private double score;
+	
 	public String getDepartureTime() {
 		return departureTime;
 	}
@@ -115,6 +117,12 @@ public class Itinerary {
 	}
 	public void setCarrierName(String carrierName) {
 		this.carrierName = carrierName;
+	}
+	public double getScore() {
+		return score;
+	}
+	public void setScore(double score) {
+		this.score = score;
 	}
 	
 	

@@ -86,7 +86,7 @@ public class FlightRecordDAO {
 
 	}
 	
-	private ArrayList<Itinerary> processResultSet(ResultSet rs) throws SQLException{
+	private ArrayList<Itinerary> processResultSet(ResultSet rs, boolean flag) throws SQLException{
 		
 			ArrayList<Itinerary> records = new ArrayList<>();
 			
@@ -107,6 +107,9 @@ public class FlightRecordDAO {
 				tr.setOriginCityName(rs.getString("departureCityName"));
 				tr.setDestinationCityName(rs.getString("destinationCityName"));
 				tr.setCarrierName(rs.getString("carrierName"));
+				if(flag){
+					tr.setScore(rs.getDouble("score"));
+				}
 				
 				tr.setFlightRecord(new ArrayList<>());
 				
@@ -115,11 +118,44 @@ public class FlightRecordDAO {
 			return records;
 	}
 	
+	
+/*	public ArrayList<Itinerary> getResultUsingFuzzyLogic(SearchCriteria sc) throws SQLException{
+		String fuzzy = sc.getFuzzyString();
+		String sql = ""
+				+ "SELECT "
+				+ "    F1.* ," + fuzzy
+				+ "   as score  "
+				+ "FROM "
+				+ "    (SELECT *, "
+				+ "	      TRUNCATE((M1.MAX_STOPS - F.STOPS) / (M1.MAX_STOPS - M1.MIN_STOPS), 2) AS s_Stops, "
+				+ "		  TRUNCATE(((M1.MAX_PRICE - F.price) / (M1.MAX_PRICE - M1.MIN_PRICE)), 2) AS s_price, "
+				+ "		  TRUNCATE((M1.MAX_DURATION - F.duration) / (M1.MAX_DURATION - M1.MIN_DURATION), 2) AS s_duration, "
+				+ "		  TRUNCATE((M1.MAX_MILAGE - F.milage) / (M1.MAX_MILAGE - M1.MIN_MILAGE), 2) AS s_milage "
+				+ "    FROM "
+				+ "        FLIGHTRECORD F, "
+				+ "        (SELECT "
+				+ "			MIN(Stops) AS MIN_STOPS, "
+				+ "            MAX(Stops) AS MAX_STOPS, "
+				+ "            MIN(price) AS MIN_PRICE, "
+				+ "            MAX(price) AS MAX_PRICE, "
+				+ "            MIN(DURATION) AS MIN_DURATION, "
+				+ "            MAX(DURATION) AS MAX_DURATION, "
+				+ "            MIN(MILAGE) AS MIN_MILAGE, "
+				+ "            MAX(MILAGE) AS MAX_MILAGE "
+				+ "             "
+				+ "		FROM "
+				+ "        FLIGHTRECORD) M1) F1;";
+		
+		stmt = connection.createStatement();
+		rs = stmt.executeQuery(sql);
+		return this.processResultSet(rs,true);
+	}
+	*/
 	public ArrayList<Itinerary> sortBy(String orderBy) throws SQLException{
 		String sql="select * from flightRecord order by "+orderBy;
 		stmt = connection.createStatement();
 		rs = stmt.executeQuery(sql);
-		return this.processResultSet(rs);
+		return this.processResultSet(rs,false);
 	}
 	
 	
@@ -164,10 +200,42 @@ public class FlightRecordDAO {
 		String sql="select * from flightRecord where carrier LIKE "+choice;
 		stmt = connection.createStatement();
 		rs = stmt.executeQuery(sql);
-		return this.processResultSet(rs);
+		return this.processResultSet(rs,false);
 	}
 	public ArrayList<Itinerary> searchByParameters(SearchCriteria sc) throws SQLException{
-		String sql = "select * from flightRecord where departure LIKE ? AND destination LIKE ? ";
+		
+		String fuzzy = sc.getFuzzyString();
+		
+		String sql = ""
+				+ "SELECT "
+				+ "    F1.* ,"+fuzzy
+				+ "   as score  "
+				+ "FROM "
+				+ "    (SELECT *, "
+				+ "	      TRUNCATE((M1.MAX_STOPS - F.STOPS) / (M1.MAX_STOPS - M1.MIN_STOPS), 2) AS s_Stops, "
+				+ "		  TRUNCATE(((M1.MAX_PRICE - F.price) / (M1.MAX_PRICE - M1.MIN_PRICE)), 2) AS s_price, "
+				+ "		  TRUNCATE((M1.MAX_DURATION - F.duration) / (M1.MAX_DURATION - M1.MIN_DURATION), 2) AS s_duration, "
+				+ "		  TRUNCATE((M1.MAX_MILAGE - F.milage) / (M1.MAX_MILAGE - M1.MIN_MILAGE), 2) AS s_milage "
+				+ "    FROM "
+				+ "        FLIGHTRECORD F, "
+				+ "        (SELECT "
+				+ "			MIN(Stops) AS MIN_STOPS, "
+				+ "            MAX(Stops) AS MAX_STOPS, "
+				+ "            MIN(price) AS MIN_PRICE, "
+				+ "            MAX(price) AS MAX_PRICE, "
+				+ "            MIN(DURATION) AS MIN_DURATION, "
+				+ "            MAX(DURATION) AS MAX_DURATION, "
+				+ "            MIN(MILAGE) AS MIN_MILAGE, "
+				+ "            MAX(MILAGE) AS MAX_MILAGE "
+				+ "             "
+				+ "		FROM "
+				+ "        FLIGHTRECORD) M1 where departure LIKE ? AND destination LIKE  ?";
+		
+		
+		
+		
+		
+		//String sql = "select * from flightRecord where departure LIKE ? AND destination LIKE ? ";
 		String stopsCriteria = "";
 		String cabinCriteria = "";
 		String priceCriteria = "";
@@ -229,7 +297,7 @@ public class FlightRecordDAO {
 			sql+= priceCriteria;
 			System.out.println(sql);
 		}
-		
+		sql+= " ) F1 order by score desc";
 		PreparedStatement pst = connection.prepareStatement(sql);
 		pst.setString(1, sc.getDeparture());
 		pst.setString(2, sc.getDestination());
@@ -239,8 +307,10 @@ public class FlightRecordDAO {
 		}
 		rs = pst.executeQuery();
 		System.out.println(sql);
-		return this.processResultSet(rs);
+		return this.processResultSet(rs,true);
 		
 	}
+	
+	
 	
 }

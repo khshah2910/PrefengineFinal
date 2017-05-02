@@ -227,18 +227,18 @@
 																			<div class="form-group form-group-lg">
 																				<label>Non-Functional Requirement</label>
 																				<select name="req"  class="form-control">
-																				  <option value="price">Price</option>
-																				  <option value="stops">Stops</option>
-																				  <option value="duration">Duration</option>
-																				  <option value="mileage">Mileage</option>
+																				  <option value="s_price">Price</option>
+																				  <option value="s_stops">Stops</option>
+																				  <option value="s_duration">Duration</option>
+																				  <option value="s_milage">Mileage</option>
 																				</select>	
 																				
 																				<label>Non-Functional Requirement</label>
 																				<select name="req" class="form-control">
-																				  <option value="price">Price</option>
-																				  <option value="stops">Stops</option>
-																				  <option value="duration">Duration</option>
-																				  <option value="mileage">Mileage</option>
+																				  <option value="s_price">Price</option>
+																				  <option value="s_stops">Stops</option>
+																				  <option value="s_duration">Duration</option>
+																				  <option value="s_milage">Mileage</option>
 																				</select>																
 																				
 																			</div>
@@ -384,10 +384,10 @@
 							"<div class='form-group form-group-lg'> <label>Non-Functional Requirement</label> " +
 							
 							"<select name='req' value='Price, stops, duration...' class='form-control'> " +
-																				  "<option value='price'>Price</option> " +
-																				  "<option value='stops'>Stops</option> " +
-																				  "<option value='duration'>Duration</option> " +
-																				  "<option value='mileage'>Mileage</option> " +
+																				  "<option value='s_price'>Price</option> " +
+																				  "<option value='s_stops'>Stops</option> " +
+																				  "<option value='s_duration'>Duration</option> " +
+																				  "<option value='s_milage'>Mileage</option> " +
 																				"</select> " +
 																			"</div> " +
 																			

@@ -72,6 +72,7 @@ public class SearchController extends HttpServlet {
 				temp=fuzzy;
 			}
 			System.out.println("Final String : "+fuzzy);
+			searchCriteria.setFuzzyString(fuzzy);
 
 			String numberOfPassengers = request.getParameter("numberOfPassengers");
 
