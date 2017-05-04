@@ -27,6 +27,7 @@ public class SearchCriteria {
 	private float maxPrice;
 	private float minPrice;
 	private String fuzzyString;
+	private String personString;
 	
 	public String getDeparture() {
 		return departure;
@@ -171,6 +172,12 @@ public class SearchCriteria {
 	}
 	public void setMaxRank(int maxRank) {
 		this.maxRank = maxRank;
+	}
+	public String getPersonString() {
+		return personString;
+	}
+	public void setPersonString(String personString) {
+		this.personString = personString;
 	}
 	
 	

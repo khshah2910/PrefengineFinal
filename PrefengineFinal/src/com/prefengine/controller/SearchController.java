@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.prefengine.domain.Itinerary;
 import com.prefengine.domain.NonFunctionalAttributes;
+import com.prefengine.domain.RequirementMap;
 import com.prefengine.domain.SearchAttributes;
 import com.prefengine.service.APIService;
 import com.prefengine.service.NonFunctionalParser;
@@ -97,11 +98,49 @@ public class SearchController extends HttpServlet {
 			String[] operators = new String[countInt];
 			String fuzzyString = null;
 			
+			String[] requirements1  = request.getParameterValues("req");
+			String[] operators1 = new String[countInt];
+			
 			
 			for(int i=0;i<countInt;i++){
 				operators[i]=request.getParameter("operator"+(i+1));
 			}
-
+			
+			for(int i=0;i<countInt;i++){
+				operators1[i]=request.getParameter("operator"+(i+1));
+			}
+			
+			
+			//String fString = null;
+			String temp0 = RequirementMap.map(requirements1[0]);
+			
+			for(int i=1;i<requirements1.length;i++){
+				
+				
+				
+				if(operators1[i-1].equals("GREATEST")){
+					operators1[i-1]="OR";
+				}
+				if(operators1[i-1].equals("LEAST")){
+					operators1[i-1]="AND";
+				}
+				if(operators1[i-1].equals("")){
+					operators1[i-1]="COMPROMISE";
+				}
+				
+				
+				System.out.println("users string is : " + operators1[i-1]+" " + RequirementMap.map(requirements1[i]));
+				temp0 += " " + operators1[i-1] + " " + RequirementMap.map(requirements1[i]);
+				//if(i==requirements1.length-1){
+					//System.out.println(fString+requirements1[requirements1.length-1]+"-----------");
+				//}
+			}
+			//temp0 = fString + requirements1[requirements1.length-1];
+		
+			System.out.println("------------------------------>>> >> > >> > > >"+temp0);
+			
+			searchCriteria.setPersonString(temp0);
+			
 			String temp=requirements[0];
 			for(int i=0;i<operators.length+1;i++){
 				
@@ -191,8 +230,10 @@ public class SearchController extends HttpServlet {
 			else{
 				int maxDuration1 = Integer.parseInt(maxDuration);
 				int minDuration1 = Integer.parseInt(minDuration);
-				searchCriteria.setMaxDutation(maxDuration1);
-				searchCriteria.setMinDuration(minDuration1);
+				searchCriteria.setMaxDutation(maxDuration1*60);
+				searchCriteria.setMinDuration(minDuration1*60);
+				
+				System.out.println(searchCriteria.getMaxDutation()+"------------------------------" + searchCriteria.getMinDuration());
 			}
 			
 			// Max - Min Price
@@ -258,6 +299,7 @@ public class SearchController extends HttpServlet {
 			
 			session.setAttribute("searchAttr", searchAttr);
 			session.setAttribute("tripRecord", tripRecord);
+			session.setAttribute("PersonString", temp0);
 			System.out.println("passengers --------- >>>>>> "+	tripRecord.get(0).getNumberOfPassengers()+"----------------");
 
 		}

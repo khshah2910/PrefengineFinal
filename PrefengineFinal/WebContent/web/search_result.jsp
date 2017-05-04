@@ -134,7 +134,7 @@
 				</div>
 			</form>
 			<div class="row">
-				<div class="col-md-3">
+				<%-- <div class="col-md-3">
 					<aside class="booking-filters text-white">
 						<h3>Filter By:</h3>
 						<ul class="list booking-filters-list">
@@ -217,9 +217,10 @@
 							</li> -->
 						</ul>
 					</aside>
-				</div>
-				<div class="col-md-9">
+				</div> --%>
+				<div class="col-md-12">
 					<div>
+					<h4 style="color:#e27513"><%out.print("Users specified non-functional requirements : "+session.getAttribute("PersonString")); %></h4>
 						<lable>Sort By</lable>
 
 						<form method="post" action="/Prefengine/SearchController">
@@ -233,6 +234,7 @@
 
 						</form>
 					</div>
+					
 					<br>
 					<br>
 					<ul class="booking-list">
@@ -322,7 +324,7 @@
 											%>
 											<h6>Your Satisfaction Percentage</h6>
 											<p>
-												<%out.print("<b>"+percentage +"% </b>"); %>
+												<%out.print("<b>"+String.format("%.2f", percentage) +"% </b>"); %>
 											</p>
 										</div>
 									</div>

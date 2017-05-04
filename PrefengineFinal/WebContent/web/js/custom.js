@@ -251,9 +251,9 @@ $("#stops-slider").ionRangeSlider({
 
 $("#duration-slider").ionRangeSlider({
     min: 0,
-    max: 3000,
+    max: 50,
     type: 'double',
-    prefix: 'Mins - ', 
+    prefix: 'Hours - ', 
     //maxPostfix: "+",
     prettify: false,
     hasGrid: true,
@@ -262,7 +262,7 @@ $("#duration-slider").ionRangeSlider({
 });
 
 $("#rank-slider").ionRangeSlider({
-    min: 0,
+    min: 1,
     max: 100,
     type: 'double',
     prefix: 'Rank', 
