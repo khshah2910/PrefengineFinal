@@ -46,9 +46,9 @@ public class LoginController extends HttpServlet {
         String n=request.getParameter("username");  
         String p=request.getParameter("password"); 
         
-        HttpSession session = request.getSession(false);
-        if(session!=null)
-        session.setAttribute("name", n);
+        //HttpSession session = request.getSession(false);
+        //if(session!=null)
+        //session.setAttribute("name", n);
         if(loginDAO.validate(n, p)){  
         	//request.setAttribute("username",n);
             RequestDispatcher rd=request.getRequestDispatcher("web/welcome.jsp");  

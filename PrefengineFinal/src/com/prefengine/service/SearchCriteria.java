@@ -5,6 +5,14 @@ public class SearchCriteria {
 	private String destination;
 	private String departureDate;
 	private String returnDate;
+	private int minStops;
+	private int maxStops;
+	private int minDuration;
+	private int maxDutation;
+	private int minRank;
+	private int maxRank;
+	
+	
 	private int stops;
 	private boolean nonStop=false;
 	private boolean oneStop=false;
@@ -128,6 +136,43 @@ public class SearchCriteria {
 	public void setFuzzyString(String fuzzyString) {
 		this.fuzzyString = fuzzyString;
 	}
+	public int getMinStops() {
+		return minStops;
+	}
+	public void setMinStops(int minStops) {
+		this.minStops = minStops;
+	}
+	public int getMaxStops() {
+		return maxStops;
+	}
+	public void setMaxStops(int maxStops) {
+		this.maxStops = maxStops;
+	}
+	public int getMinDuration() {
+		return minDuration;
+	}
+	public void setMinDuration(int minDuration) {
+		this.minDuration = minDuration;
+	}
+	public int getMaxDutation() {
+		return maxDutation;
+	}
+	public void setMaxDutation(int maxDutation) {
+		this.maxDutation = maxDutation;
+	}
+	public int getMinRank() {
+		return minRank;
+	}
+	public void setMinRank(int minRank) {
+		this.minRank = minRank;
+	}
+	public int getMaxRank() {
+		return maxRank;
+	}
+	public void setMaxRank(int maxRank) {
+		this.maxRank = maxRank;
+	}
+	
 	
 	
 }

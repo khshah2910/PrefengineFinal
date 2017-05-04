@@ -237,6 +237,44 @@ $("#price-slider").ionRangeSlider({
 	input_values_separator: ' - '
 });
 
+$("#stops-slider").ionRangeSlider({
+    min: 0,
+    max: 4,
+    type: 'double',
+    //prefix: '', 
+    //maxPostfix: "+",
+    prettify: false,
+    hasGrid: true,
+	values_separator: ' - ',
+	input_values_separator: ' - '
+});
+
+$("#duration-slider").ionRangeSlider({
+    min: 0,
+    max: 3000,
+    type: 'double',
+    prefix: 'Mins - ', 
+    //maxPostfix: "+",
+    prettify: false,
+    hasGrid: true,
+	values_separator: ' - ',
+	input_values_separator: ' - '
+});
+
+$("#rank-slider").ionRangeSlider({
+    min: 0,
+    max: 100,
+    type: 'double',
+    prefix: 'Rank', 
+    //maxPostfix: "+",
+    prettify: false,
+    hasGrid: true,
+	values_separator: ' - ',
+	input_values_separator: ' - '
+});
+
+
+
 $('.i-check, .i-radio').iCheck({
     checkboxClass: 'i-check',
     radioClass: 'i-radio'

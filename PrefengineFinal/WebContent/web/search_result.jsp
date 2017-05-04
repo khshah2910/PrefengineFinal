@@ -33,12 +33,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- GOOGLE FONTS -->
-<link
-	href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700'
-	rel='stylesheet' type='text/css'>
-<link
-	href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600'
-	rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600' rel='stylesheet' type='text/css'>
 <!-- /GOOGLE FONTS -->
 <link rel="stylesheet" href="web/css/bootstrap.css">
 <link rel="stylesheet" href="web/css/font-awesome.css">
@@ -69,22 +65,22 @@
 			<div class="header-top">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-3">
+						<div class="col-md-12" align="center">
 							<a class="logo" href="index.html"> <img
 								src="web/img/new_logo_1.png" height="47px" width="150px"
 								title="Image Title" />
 							</a>
 						</div>
 
-						<div class="col-md-9">
+						<!-- <div class="col-md-9">
 							<div class="top-user-area clearfix">
 								<ul class="top-user-area-list list list-horizontal list-border">
-									<li class="top-user-area-avatar"><a href=""> Hello, <%=session.getAttribute("name")%></a>
+									<li class="top-user-area-avatar"><a href=""> Hello, Guest%></a>
 									</li>
 									<li><a href="#">Sign Out</a></li>
 								</ul>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -92,9 +88,9 @@
 
 		</header>
 		<%
-				ArrayList<Itinerary> list = (ArrayList<Itinerary>)request.getAttribute("tripRecord");
+				ArrayList<Itinerary> list = (ArrayList<Itinerary>)session.getAttribute("tripRecord");
 							ArrayList<Flights> getRouteDetails;
-	%>
+		%>
 
 
 		<div class="container">
@@ -148,7 +144,7 @@
 								</h5>
 								<div class="checkbox">
 									<label> <%	
-									SearchAttributes attributes = (SearchAttributes)request.getAttribute("searchAttr");
+									SearchAttributes attributes = (SearchAttributes)session.getAttribute("searchAttr");
 									HashMap<Integer,Float> stopAttr = attributes.getStops();
 									for(HashMap.Entry<Integer, Float> r : stopAttr.entrySet()){
 										out.print("<input class='i-check' type='checkbox' />");
@@ -201,7 +197,7 @@
 									</label>
 								</div>
 							</li>
-							<li>
+							<!-- <li>
 								<h5 class="booking-filters-title">Departure Time</h5>
 								<div class="checkbox">
 									<label> <input class="i-check" type="checkbox" />Morning
@@ -218,25 +214,27 @@
 										(6:00p - 11:59p)
 									</label>
 								</div>
-							</li>
+							</li> -->
 						</ul>
 					</aside>
 				</div>
 				<div class="col-md-9">
-					<div class="nav-drop booking-sort">
-						<h5 class="booking-sort-title">
-							<a href="#">Sort: Sort: Price (low to high)<i
-								class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i></a>
-						</h5>
-							<ul class="nav-drop-menu">
-								<li><a href="#">Price (high to low)</a></li>
-								<li><a href="#">Duration</a></li>
-								<li><a href="#">Stops</a></li>
-								<li><a href="#">Arrival</a></li>
-								<li><a href="#">Departure</a></li>
-							</ul>
-					</div>
+					<div>
+						<lable>Sort By</lable>
 
+						<form method="post" action="/Prefengine/SearchController">
+							<select name="orderBy" onchange="this.form.submit()">
+								<option></option>
+								<option value="price">Price (Hight to Low)</option>
+								<option value="duration">Duration</option>
+								<option value="Stops">Stops</option>
+								<option value="milage">Miles</option>
+							</select>
+
+						</form>
+					</div>
+					<br>
+					<br>
 					<ul class="booking-list">
 						<%
 							//request.getAttribute("tripRecord");
@@ -249,7 +247,7 @@
 							<div class="booking-item-container">
 								<div class="booking-item">
 									<div class="row">
-										<div class="col-md-2">
+										<div class="col-md-1">
 											<div class="booking-item-airline-logo">
 
 												<p>
@@ -306,15 +304,26 @@
 												<%out.print("Stops: "+stops); %>
 											</p>
 										</div>
-										<div class="col-md-3">
-											<span class="booking-item-price">
-												<%out.print(" $ "+list.get(i).getPrice()); %>
-											</span><span>/person</span> <br> <br>
+										<div class="col-md-2">
+											<%-- <%out.print(list.get(i).getNumberOfPassengers()); %> --%>
+											<span class="booking-item-price"> <%out.print(" $ "+String.format("%.2f",list.get(i).getPrice())); %>
+											</span> <br> <br>
 											<p class="booking-item-flight-class">
 												<%out.print("Class Type: "+list.get(i).getCoach()); %>
 											</p>
 											<a class="btn btn-primary" href="#">Select</a>
 
+										</div>
+										<div class="col-md-1">
+											<%
+												double score = list.get(i).getScore();
+												double percentage = score*100;
+											
+											%>
+											<h6>Your Satisfaction Percentage</h6>
+											<p>
+												<%out.print("<b>"+percentage +"% </b>"); %>
+											</p>
 										</div>
 									</div>
 								</div>
@@ -459,75 +468,6 @@
 		<script src="web/js/countdown.js"></script>
 		<script src="web/js/gridrotator.js"></script>
 		<script src="web/js/custom.js"></script>
-
-		<script type="text/javascript">
-			var rowCount = 1;
-			//Added code by Yinka
-			function addNewRow(){
-					rowCount += 1;
-					$('#nonfuncarea').append("<div class='row'> "+
-							"<div class='col-md-4'> " +
-							"	<div class='form-group form-group-lg'> " +
-							"		<label>Operator</label> " +
-							"		<input type='radio' name='operator" + rowCount + "' value='and' checked> AND " +
-							"		<input type='radio' name='operator" + rowCount + "' value='or'> OR " +
-							"		<input type='radio' name='operator" + rowCount + "' value='compromise'> COMPROMISE " +
-							"	</div> " +
-							"</div> " +
-							"<div class='col-md-4'> " +
-							
-							"<div class='form-group form-group-lg'> <label>Non-Functional Requirement</label> " +
-							
-							"<select name='req" + ((rowCount * 2)-1) + "' value='Price, stops, duration...' class='form-control'> " +
-																				  "<option value='price'>Price</option> " +
-																				  "<option value='stops'>Stops</option> " +
-																				  "<option value='duration'>Duration</option> " +
-																				  "<option value='mileage'>Mileage</option> " +
-																				"</select> " +
-																			"</div> " +
-																			
-																		"</div> " +
-																		/* "<div class='col-md-3'> " +
-																		"	<div class='form-group form-group-lg'> " +
-																		"		<label>Operator</label> " +
-																		"		<input type='radio' name='operator" + rowCount + "' value='and' checked> AND " +
-																		"		<input type='radio' name='operator" + rowCount + "' value='or'> OR " +
-																		"		<input type='radio' name='operator" + rowCount + "' value='compromise'> COMPROMISE " +
-																		"	</div> " +
-																		"</div> " + */
-																		/* "<div class='col-md-4'> " +
-																		"	<div class='form-group form-group-lg'> " +
-																	"			<label>Non-Functional Requirement</label> " +
-																	"			<select name='req" + (rowCount * 2) + "' value='Price, stops, duration...' class='form-control'> " +
-																	"			  <option value='price'>Price</option> " +
-																	"			  <option value='stops'>Stops</option> " +
-																	"			  <option value='duration'>Duration</option> " +
-																	"			  <option value='mileage'>Mileage</option>  " +
-																	"			</select>	 " + */																
-																	"		</div>  " +
-																	"	</div> " +
-																	"</div> " 
-																	
-																	);
-					return false;
-				}
-			$(document).ready(function() {
-				var date = new Date();
-				var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-				$('#departureDate').datepicker('setStartDate', 'today', 'dateFormat', 'yy-mm-dd');
-				$('#returnDate').datepicker('setStartDate', 'today');
-		
-				
-				$('#departureDate').datepicker()
-				  .on('changeDate', function(ev){
-					  $("#returnDate").val($("#departureDate").datepicker('getFormattedDate'));
-					  $('#returnDate').datepicker('setStartDate', val($("#departureDate").datepicker('getFormattedDate')))
-					//if (ev.date.valueOf() < startDate.valueOf()){
-					  //....
-				  });
-			});
-		</script>
-
 	</div>
 </body>
 

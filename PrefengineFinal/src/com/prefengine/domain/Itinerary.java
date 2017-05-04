@@ -26,6 +26,7 @@ public class Itinerary {
 	private String departureTime;
 	private String arrivalTime;
 	private double score;
+	private int numberOfPassengers;
 	
 	public String getDepartureTime() {
 		return departureTime;
@@ -123,6 +124,12 @@ public class Itinerary {
 	}
 	public void setScore(double score) {
 		this.score = score;
+	}
+	public int getNumberOfPassengers() {
+		return numberOfPassengers;
+	}
+	public void setNumberOfPassengers(int numberOfPassengers) {
+		this.numberOfPassengers = numberOfPassengers;
 	}
 	
 	

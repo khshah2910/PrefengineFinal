@@ -46,7 +46,11 @@ public class SearchService {
 		List<CarrierData> carriers = response.getTrips().getData().getCarrier();
 		FlightRecordDAO frd = new FlightRecordDAO();
 		ArrayList<Itinerary> result1=null;
-	
+		
+		if(tripResults==null || tripResults.size()==0){
+			return null;
+		}
+		
 		for(int air = 0; air<airport.size();air++){
 			Airport airp = new Airport();
 			airp.setAirportCode(airport.get(air).getCode());
@@ -71,8 +75,6 @@ public class SearchService {
 			mapCarrier.put(carr.getCarrierCode(), carr);
 		}
 		
-		
-
 		for(int i=0; i<tripResults.size(); i++){
 			Itinerary tr = new Itinerary();
 			
@@ -81,6 +83,7 @@ public class SearchService {
 			tr.setOriginCityName(mapCity.get(sc.getDeparture()).getCityName());
 			tr.setDestinationCityName(mapCity.get(sc.getDestination()).getCityName());
 			tr.setTripId(tripResults.get(i).getId());
+			
 			long tripMiles=0;
 			long flightMiles=0;
 			List<SliceInfo> sliceInfo= tripResults.get(i).getSlice();
@@ -112,14 +115,13 @@ public class SearchService {
 				finalPrice = Float.parseFloat(price.substring(3));
 				tr.setPrice(finalPrice);
 			}
-			System.out.println("=======================");
-			
+			tr.setNumberOfPassengers(sc.getNumberOfPassengers());
 			result.add(tr);
-			
 		}
 		frd.saveFlightRecordsBatch(result);
 		try {
 			result1 = frd.searchByParameters(sc);
+
 			for(int t=0;t<result.size();t++){
 				for(int r=0;r<result1.size();r++){
 					if(result.get(t).getTripId().equals(result1.get(r).getTripId())){
@@ -131,6 +133,7 @@ public class SearchService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return result1; 
 	}
 	
@@ -138,7 +141,6 @@ public class SearchService {
 		ArrayList<Flights> flightRecord = new ArrayList<>();
 		long flightMilage = 0;
 		long tripMilage = 0;
-		//APIService apiService =new APIService();
 			for(int k=0; k<segInfo.size(); k++){
 				Carriers c = new Carriers();
 				Flights fr = new Flights();
@@ -166,9 +168,6 @@ public class SearchService {
 					departure.setAirportCode(leg.get(l).getOrigin());
 					
 					Airport airport1 = mapAirp.get(arrival.getAirportCode());
-//					System.out.println("airport1 ::::::"+ airport1.getAirportCity());
-//					System.out.println("---->> intermediate "+mapCity.get(mapAirp.get(arrival.getAirportCode()).getAirportCity()).getCityName());
-//					System.out.println("---->> intermediate "+mapCity.get(mapAirp.get(departure.getAirportCode()).getAirportCity()).getCityName());
 					departure.setAirportCity(mapCity.get(mapAirp.get(departure.getAirportCode()).getAirportCity()).getCityName());
 					arrival.setAirportCity(mapCity.get(mapAirp.get(arrival.getAirportCode()).getAirportCity()).getCityName());
 					departure.setAirportName(mapAirp.get(arrival.getAirportCode()).getAirportName());

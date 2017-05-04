@@ -69,14 +69,14 @@
 			<div class="header-top">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-3">
+						<div class="col-md-12" align="center">
 							<a class="logo" href="index.html"> <img
 								src="web/img/new_logo_1.png" height="47px" width="150px"
 								alt="Image Alternative text" title="Image Title" />
 							</a>
 						</div>
 
-						<div class="col-md-9">
+						<%-- <div class="col-md-9">
 							<div class="top-user-area clearfix">
 								<ul class="top-user-area-list list list-horizontal list-border">
 									<li class="top-user-area-avatar"><a href=""> Hello, <%=session.getAttribute("name")%></a>
@@ -84,7 +84,7 @@
 									<li><a href="#">Sign Out</a></li>
 								</ul>
 							</div>
-						</div>
+						</div> --%>
 					</div>
 				</div>
 			</div>
@@ -94,9 +94,8 @@
 			<div class="bg-holder full">
 				<div class="bg-mask"></div>
 				<div class="bg-img"
-					style="background-image: url(web/img/2048x1365.png);">
+					style="background-image: url(web/img/bg_image.jpg);">
 				</div>
-				
 				<div class="bg-content">
 					<div class="container">
 						<div class="row">
@@ -114,15 +113,16 @@
 													<div class="tabbable">
 														<ul class="nav nav-pills nav-sm nav-no-br mb10"
 															id="flightChooseTab">
-															<li class="active"><a href="#flight-search-1"
-																data-toggle="tab">Round Trip</a></li>
-															<li><a href="#flight-search-2" data-toggle="tab">One
+															<!-- <li class="active"><a href="#flight-search-1"
+																data-toggle="tab">Round Trip</a></li> -->
+															<li class="active"> <a href="#flight-search-2" data-toggle="tab">One
 																	Way</a></li>
 														</ul>
+														
 														<div class="tab-content">
 															<div class="tab-pane fade in active" id="flight-search-1">
 																<div class="row">
-																	<div class="col-md-6">
+																	<div class="col-md-3">
 																		<div
 																			class="form-group form-group-lg form-group-icon-left">
 																			<i class="fa fa-map-marker input-icon"></i> <label>From</label>
@@ -131,7 +131,7 @@
 																				value="BOS" name="departure" />
 																		</div>
 																	</div>
-																	<div class="col-md-6">
+																	<div class="col-md-3">
 																		<div
 																			class="form-group form-group-lg form-group-icon-left">
 																			<i class="fa fa-map-marker input-icon"></i> <label>To</label>
@@ -140,8 +140,7 @@
 																				value="AMD" name="destination" />
 																		</div>
 																	</div>
-																</div>
-																<div class="input-daterange" data-date-format="M d, D">
+																	<div class="input-daterange" data-date-format="M d, D">
 																	<div class="row">
 																		<div class="col-md-3">
 																			<div
@@ -152,7 +151,7 @@
 																					name="departureDate" data-date-format="yyyy-m-d"  type="text" />
 																			</div>
 																		</div>
-																		<div class="col-md-3">
+																		<!-- <div class="col-md-3">
 																			<div
 																				class="form-group form-group-lg form-group-icon-left">
 																				<i
@@ -160,8 +159,8 @@
 																				<label>Returning</label> <input class="date-pick form-control" id="returnDate"
 																					name="returnDate" data-date-format="yyyy-m-d"  type="text" />
 																			</div>
-																		</div>
-																		<div class="col-md-6">
+																		</div> -->
+																		<div class="col-md-3">
 																			<div
 																				class="form-group form-group-lg form-group-icon-left">
 																				<label>Passngers</label>
@@ -174,6 +173,8 @@
 																		</div>
 																	</div>
 																</div>
+																</div>
+																
 															</div>
 															<div class="tab-pane fade" id="flight-search-2">
 																<div class="row">
@@ -219,50 +220,6 @@
 																</div>
 															</div>
 															
-															<div id="nonfuncarea">
-																	<div class="row">
-																		<h3>Advanced Non-Functional Parameters</h3>
-																		<div class="col-md-4">
-																		
-																			<div class="form-group form-group-lg">
-																				<label>Non-Functional Requirement</label>
-																				<select name="req"  class="form-control">
-																				  <option value="s_price">Price</option>
-																				  <option value="s_stops">Stops</option>
-																				  <option value="s_duration">Duration</option>
-																				  <option value="s_milage">Mileage</option>
-																				</select>	
-																				
-																				<label>Non-Functional Requirement</label>
-																				<select name="req" class="form-control">
-																				  <option value="s_price">Price</option>
-																				  <option value="s_stops">Stops</option>
-																				  <option value="s_duration">Duration</option>
-																				  <option value="s_milage">Mileage</option>
-																				</select>																
-																				
-																			</div>
-																		</div>
-																		<div class="col-md-3">
-																			<div class="form-group form-group-lg">
-																				<input type="hidden" name="count" id="count" value ="1">
-																				
-																				<label>Operator</label>
-																				<input type="radio" name="operator1" value="LEAST" checked> AND
-																				<input type="radio" name="operator1" value="GREATEST"> OR
-																				<input type="radio" name="operator1" value=""> COMPROMISE
-																			</div>
-																		</div>
-																		<div class="col-md-1">
-																			<div class="form-group form-group-lg">
-																				<label>Add</label>
-																					<a href="#" onclick="return addNewRow();"><i class="fa fa-plus" aria-hidden="true"></i></a>
-																				</label>
-																			</div>
-																		</div>
-																	</div>
-															</div>
-															
 															<input type="checkbox" name="checkbox"
 																onclick="showHide()" id="show" />
 															<lable for="show">Show more options</lable>
@@ -272,8 +229,36 @@
 
 															<div class="content hideContent" hidden="true"
 																id="hidden">
+															<div id="nonfuncarea">
+																	<div id="req1" class="row buttonHolder">
+																		<h3>Advanced Non-Functional Parameters</h3>
+																		<div class="col-md-4">
+																			<input type="hidden" name="count" id="count" value ="1">
+																			<div class="form-group form-group-lg">
+																				<select name="req" class="form-control">
+																				  <option value="s_price">Price</option>
+																				  <option value="s_stops">Stops</option>
+																				  <option value="s_duration">Duration</option>
+																				  <option value="s_rank">Rank</option>
+																				</select>															
+																			</div>
+																		</div>
+																		<div class="col-md-1 addButton">
+																			<div class="form-group form-group-lg" style="padding-top:12px;">
+																				
+																					<a href="#" onclick="return addNewRow();" style="font-size:17px;"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;&nbsp;&nbsp;Add</a>
+																				
+																			</div>
+																		</div>
+																		<input name="nonfunctionalparameters" type="hidden" value="">
+															<!-- </div>  -->
+															
+														</div>
+													</div>
+															
+															
 																<div class="row">
-																	<div class="col-md-2">
+																<!-- 	<div class="col-md-2">
 																		<h5 class="booking-filters-title">Stops</h5>
 																		<div class="checkbox">
 																			<label> <input class="i-check" type="checkbox"
@@ -290,15 +275,36 @@
 																			value="2"	name="stops" />2+ Stops
 																			</label>
 																		</div>
-																	</div>
-																	<div class="col-md-1"></div>
-																
-																<div class="col-md-3">
+																	</div> -->
+																	<!-- <div class="col-md-1"></div> -->
+																<!-- Min max range entered by user!  -->
+																<div align="center"><b><p style="color:RED"> User must specify the range of all the parameters to get best result </p></b> </div>
+																<div class="col-md-2">
 																	<h5 class="booking-filters-title">Price</h5>
 																	<input type="text" id="price-slider" name="price">
 																</div>
 																<div class="col-md-1"></div>
-																<div class="col-md-3">
+																<div class="col-md-2">
+																	<h5 class="booking-filters-title">Stops</h5>
+																	<input type="text" id="stops-slider" name="stops">
+																</div>
+																<div class="col-md-1"></div>
+																<div class="col-md-2">
+															
+																	<h5 class="booking-filters-title">Duration</h5>
+																	<input type="text" id="duration-slider" name="duration">
+																</div>
+																<div class="col-md-1"></div>
+																<div class="col-md-2">
+															
+																	<h5 class="booking-filters-title">Airline Rank</h5>
+																	<input type="text" id="rank-slider" name="rank">
+																</div>
+																
+																<!-- End  -->
+																
+																<!-- <div class="col-md-1"></div> -->
+																<!-- <div class="col-md-3">
 																	<h5 class="booking-filters-title">Flight Class</h5>
 																	<div class="checkbox">
 																		<label> <input class="i-check" type="checkbox"
@@ -315,11 +321,11 @@
 																		value="FIRST"	name="cabin" />First
 																		</label>
 																	</div>
-																</div>
-																<div class="col-md-1"></div>
+																</div> -->
+																<!-- <div class="col-md-1"></div> -->
 															</div>
 																	
-																  
+																  <br><br>
 														</div>
 													</div>
 													<button class="btn btn-primary btn-lg" type="submit">Search
@@ -365,55 +371,54 @@
 		<script src="web/js/custom.js"></script>
 		
 		<script type="text/javascript">
+			//var operandCount = 1;
 			var rowCount = 1;
 			//Added code by Yinka
 			function addNewRow(){
-					rowCount += 1;
-					document.getElementById('count').value = rowCount;
-					$('#nonfuncarea').append("<div class='row'> "+
-							"<div class='col-md-4'> " +
+				document.getElementById('count').value = rowCount;
+				
+				//This removes the add button
+				$( "div" ).remove(".addButton");
+				
+				var previousOperandRow = "req" + rowCount;
+				
+				$('#' + previousOperandRow).append("<div class='col-md-4'> " +
 							"	<div class='form-group form-group-lg'> " +
-							"		<label>Operator</label> " +
+							"		<label>Select Operator</label> " +
 							"		<input type='radio' name='operator" + rowCount + "' value='LEAST' checked> AND " +
 							"		<input type='radio' name='operator" + rowCount + "' value='GREATEST'> OR " +
 							"		<input type='radio' name='operator" + rowCount + "' value=''> COMPROMISE " +
 							"	</div> " +
 							"</div> " +
-							"<div class='col-md-4'> " +
+							"</div>" );
+
+				rowCount += 1;
+					$('#nonfuncarea').append(
+							"<div class='row' id='req" + rowCount + "'> " +
+								"<div class='col-md-4'> " +
 							
-							"<div class='form-group form-group-lg'> <label>Non-Functional Requirement</label> " +
+									"<div class='form-group form-group-lg'> <label>Non-Functional Requirement</label> " +
 							
-							"<select name='req' value='Price, stops, duration...' class='form-control'> " +
-																				  "<option value='s_price'>Price</option> " +
+										"<select name='req' value='Price, stops, duration...' class='form-control'> " +
+																				  "<option value='s_price''>Price</option> " +
 																				  "<option value='s_stops'>Stops</option> " +
 																				  "<option value='s_duration'>Duration</option> " +
-																				  "<option value='s_milage'>Mileage</option> " +
-																				"</select> " +
-																			"</div> " +
-																			
-																		"</div> " +
-																		/* "<div class='col-md-3'> " +
-																		"	<div class='form-group form-group-lg'> " +
-																		"		<label>Operator</label> " +
-																		"		<input type='radio' name='operator" + rowCount + "' value='and' checked> AND " +
-																		"		<input type='radio' name='operator" + rowCount + "' value='or'> OR " +
-																		"		<input type='radio' name='operator" + rowCount + "' value='compromise'> COMPROMISE " +
-																		"	</div> " +
-																		"</div> " + */
-																		/* "<div class='col-md-4'> " +
-																		"	<div class='form-group form-group-lg'> " +
-																	"			<label>Non-Functional Requirement</label> " +
-																	"			<select name='req" + (rowCount * 2) + "' value='Price, stops, duration...' class='form-control'> " +
-																	"			  <option value='price'>Price</option> " +
-																	"			  <option value='stops'>Stops</option> " +
-																	"			  <option value='duration'>Duration</option> " +
-																	"			  <option value='mileage'>Mileage</option>  " +
-																	"			</select>	 " + */																
-																	"		</div>  " +
-																	"	</div> " +
-																	"</div> " 
-																	
-																	);
+																				  "<option value='s_rank'>Rank</option> " +
+										"</select> " +
+									"</div> " +						
+								"</div> " +
+								
+								
+																		
+								"<div class='col-md-1 addButton'>" +
+									"<div class='form-group form-group-lg'>" +
+										" <br> <br>"+
+										"<a href='#' onclick='return addNewRow();' style='font-size:17px;'><i class='fa fa-plus' aria-hidden='true'></i> &nbsp;&nbsp;&nbsp;Add</a> " +
+										"</label>" +
+									"</div>" +
+								"</div>" +
+																		
+							"</div>  " );
 					return false;
 				}
 			$(document).ready(function() {
@@ -427,12 +432,8 @@
 				  .on('changeDate', function(ev){
 					  $("#returnDate").val($("#departureDate").datepicker('getFormattedDate'));
 					  $('#returnDate').datepicker('setStartDate', val($("#departureDate").datepicker('getFormattedDate')))
-					//if (ev.date.valueOf() < startDate.valueOf()){
-					  //....
+					
 				  });
-				  
-				
-
 			
 			});
 		</script>
