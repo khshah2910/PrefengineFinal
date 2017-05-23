@@ -24,8 +24,6 @@ import com.prefengine.domain.Flights;
 import com.prefengine.domain.Itinerary;
 import com.prefengine.domain.SearchAttributes;
 
-import apple.laf.JRSUIConstants.Size;
-
 public class SearchService {
 	
 	
@@ -119,6 +117,8 @@ public class SearchService {
 			result.add(tr);
 		}
 		frd.saveFlightRecordsBatch(result);
+		
+		frd.savePreferences(sc);
 		try {
 			result1 = frd.searchByParameters(sc);
 

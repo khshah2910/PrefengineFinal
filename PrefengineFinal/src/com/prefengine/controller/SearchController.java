@@ -1,6 +1,7 @@
 package com.prefengine.controller;
 
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 
@@ -112,7 +113,7 @@ public class SearchController extends HttpServlet {
 			
 			
 			//String fString = null;
-			String temp0 = RequirementMap.map(requirements1[0]);
+			String userPreferenceString = RequirementMap.map(requirements1[0]);
 			
 			for(int i=1;i<requirements1.length;i++){
 				
@@ -130,16 +131,16 @@ public class SearchController extends HttpServlet {
 				
 				
 				System.out.println("users string is : " + operators1[i-1]+" " + RequirementMap.map(requirements1[i]));
-				temp0 += " " + operators1[i-1] + " " + RequirementMap.map(requirements1[i]);
+				userPreferenceString += " " + operators1[i-1] + " " + RequirementMap.map(requirements1[i]);
 				//if(i==requirements1.length-1){
 					//System.out.println(fString+requirements1[requirements1.length-1]+"-----------");
 				//}
 			}
 			//temp0 = fString + requirements1[requirements1.length-1];
 		
-			System.out.println("------------------------------>>> >> > >> > > >"+temp0);
+			System.out.println("------------------------------>>> >> > >> > > >"+userPreferenceString);
 			
-			searchCriteria.setPersonString(temp0);
+			searchCriteria.setPersonString(userPreferenceString);
 			
 			String temp=requirements[0];
 			for(int i=0;i<operators.length+1;i++){
@@ -184,7 +185,7 @@ public class SearchController extends HttpServlet {
 			
 			System.out.println("Final String : "+fuzzyString);
 			searchCriteria.setFuzzyString(fuzzyString);
-
+			searchCriteria.setUserPreferenceString(userPreferenceString);
 			String numberOfPassengers = request.getParameter("numberOfPassengers");
 
 
@@ -295,11 +296,12 @@ public class SearchController extends HttpServlet {
 				rd.forward(request, response);
 				return;
 			}
+			
 			System.out.println(tripRecord.get(0));
 			
 			session.setAttribute("searchAttr", searchAttr);
 			session.setAttribute("tripRecord", tripRecord);
-			session.setAttribute("PersonString", temp0);
+			session.setAttribute("PersonString", userPreferenceString);
 			System.out.println("passengers --------- >>>>>> "+	tripRecord.get(0).getNumberOfPassengers()+"----------------");
 
 		}

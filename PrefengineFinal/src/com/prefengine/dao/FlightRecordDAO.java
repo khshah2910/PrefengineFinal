@@ -1,5 +1,7 @@
 package com.prefengine.dao;
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -275,6 +277,29 @@ public class FlightRecordDAO {
 		
 	}
 	
-	
+	public void savePreferences(SearchCriteria sc){
+		
+		String query = "INSERT INTO users_preferences (ipAddress, departure, destination, date, userPreference, priceRange, stopRange, durationRange, rankRange) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try {
+			//UserPreferences userPref = new UserPreferences();
+			PreparedStatement pst = connection.prepareStatement(query);
+			try {
+				pst.setString(1, Inet4Address.getLocalHost().getHostAddress());
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+			pst.setString(2, sc.getDeparture());
+			pst.setString(3, sc.getDestination());
+			pst.setString(4, sc.getDepartureDate());
+			pst.setString(5, sc.getUserPreferenceString());
+			pst.setString(6, sc.getMinPrice()+" - "+sc.getMaxPrice());
+			pst.setString(7, sc.getMinStops()+" - "+sc.getMinStops());
+			pst.setString(8, sc.getMinDuration()+" - "+sc.getMaxDutation());
+			pst.setString(9, sc.getMinRank()+" - "+sc.getMaxRank());
+			pst.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

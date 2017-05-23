@@ -108,6 +108,26 @@
 
 											<div class="tab-pane fade in active" id="tab-1">
 												<h2>Search for Cheap Flights</h2>
+												
+												<!-- <h3>   </h3>
+												<h5>Requirements Sentences:  </h5>
+															
+												
+													<div class="tabbable">
+														<ul class="nav nav-pills nav-sm nav-no-br mb10"
+															id="flightChooseTab">
+															<li>
+																<textarea  style="text-align: left;padding-left:0; padding-top:0; padding-bottom:80px; 
+																	 width: 500px; display:inline-block; word-wrap:break-word; height: 100px; margin-right: 20px;" class="form-controlSentence" 
+																							name="requirementSentence"  >eg: I want flight from Boston to San Francisco on 
+																				</textarea>
+															</li>
+																
+											
+															
+														</ul> -->
+												
+												
 												<form method="post" action="/Prefengine/SearchController"
 													name="search">
 													<div class="tabbable">
@@ -137,7 +157,7 @@
 																			<i class="fa fa-map-marker input-icon"></i> <label>To</label>
 																			<input class="typeahead form-control"
 																				placeholder="City, Airport, U.S. Zip" type="text"
-																				value="AMD" name="destination" />
+																				value="SFO" name="destination" />
 																		</div>
 																	</div>
 																	<div class="input-daterange" data-date-format="M d, D">

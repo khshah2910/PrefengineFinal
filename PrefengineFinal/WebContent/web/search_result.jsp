@@ -322,7 +322,7 @@
 												double percentage = score*100;
 											
 											%>
-											<h6>Your Satisfaction Percentage</h6>
+											<h6> Satisfaction </h6>
 											<p>
 												<%out.print("<b>"+String.format("%.2f", percentage) +"% </b>"); %>
 											</p>

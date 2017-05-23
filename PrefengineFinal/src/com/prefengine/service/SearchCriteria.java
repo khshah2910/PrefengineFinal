@@ -11,8 +11,6 @@ public class SearchCriteria {
 	private int maxDutation;
 	private int minRank;
 	private int maxRank;
-	
-	
 	private int stops;
 	private boolean nonStop=false;
 	private boolean oneStop=false;
@@ -28,6 +26,7 @@ public class SearchCriteria {
 	private float minPrice;
 	private String fuzzyString;
 	private String personString;
+	private String userPreferenceString;
 	
 	public String getDeparture() {
 		return departure;
@@ -179,7 +178,11 @@ public class SearchCriteria {
 	public void setPersonString(String personString) {
 		this.personString = personString;
 	}
-	
-	
+	public String getUserPreferenceString() {
+		return userPreferenceString;
+	}
+	public void setUserPreferenceString(String userPreferenceString) {
+		this.userPreferenceString = userPreferenceString;
+	}
 	
 }
