@@ -31,15 +31,25 @@ public class FlightRecordDAO {
 		System.out.println("Records Deleted!!	");
 	}
 	
-	public void saveFlightRecordsBatch(ArrayList<Itinerary> tripRec){
+	public int saveFlightRecordsBatch(ArrayList<Itinerary> tripRec){
 		System.out.println("--->>Insertion Begins----> ");
-		try {
+		/*try {
 			truncateRecord();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 		System.out.println(tripRec.size());
+		int value;
+		try {
+			value = this.getLatestSearchId();
+			this.updateSearchId(value);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return -1;
+		}
+		
 		for(int i=0;i<tripRec.size();i++)
 		{
 			String tripId = tripRec.get(i).getTripId();
@@ -55,27 +65,32 @@ public class FlightRecordDAO {
 			String coach = tripRec.get(i).getCoach();
 			String departureCityName = tripRec.get(i).getOriginCityName();
 			String arrivalCityName = tripRec.get(i).getDestinationCityName();
-			String carrierName = tripRec.get(i).getCarrierName();			
-			String query = "insert into flightRecord (tripId, departure, destination, stops, departureTime, arrivalTime, price, carrier,duration, milage,cabin, thisTrip, jsonData,departureCityName,destinationCityName,carrierName) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String carrierName = tripRec.get(i).getCarrierName();
+			
+			
+			String query = "insert into flightRecord (searchId, tripId, departure, destination, stops, departureTime, arrivalTime, price, carrier,duration, milage,cabin, thisTrip, jsonData,departureCityName,destinationCityName,carrierName) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			try {
+				
 				PreparedStatement pst = connection.prepareStatement(query);
-				pst.setString(1,tripId);
-				pst.setString(2, origin);
-				pst.setString(3, destination);
-				pst.setInt(4, stops);
-				pst.setString(5,departureTime);
-				pst.setString(6,arrivalTime);
-				pst.setFloat(7, price);
-				pst.setString(8, carrier);
-				pst.setFloat(9,totalDuration );
-				pst.setDouble(10, miles);
-				pst.setString(11, coach);
-				pst.setString(12, null);
+				pst.setInt(1, value);
+				pst.setString(2,tripId);
+				pst.setString(3, origin);
+				pst.setString(4, destination);
+				pst.setInt(5, stops);
+				pst.setString(6,departureTime);
+				pst.setString(7,arrivalTime);
+				pst.setFloat(8, price);
+				pst.setString(9, carrier);
+				pst.setFloat(10,totalDuration );
+				pst.setDouble(11, miles);
+				pst.setString(12, coach);
 				pst.setString(13, null);
-				pst.setString(14, departureCityName);
-				pst.setString(15, arrivalCityName);
-				pst.setString(16, carrierName);
+				pst.setString(14, null);
+				pst.setString(15, departureCityName);
+				pst.setString(16, arrivalCityName);
+				pst.setString(17, carrierName);
 				pst.execute();
+				//return value;
 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -84,7 +99,7 @@ public class FlightRecordDAO {
 			
 		}
 		System.out.println("--->>Insertion Ends----> ");
-
+		return value;
 
 	}
 	
@@ -166,7 +181,9 @@ public class FlightRecordDAO {
 		
 		String fuzzy = sc.getFuzzyString();
 			int passengers =sc.getNumberOfPassengers(); 
-		String sql = ""
+			String sql;
+			if(fuzzy!=null){
+				sql = ""
 				+ "SELECT distinct "
 				+ "    F1.* ,"+fuzzy
 				+ "   as score  "
@@ -189,10 +206,37 @@ public class FlightRecordDAO {
 				+ 			sc.getMinRank()+" AS MIN_RANK "
 				+ "             "
 				+ "		FROM "
-				+ "        FLIGHTRECORD fr left join AirlineRanks ar on fr.carrier = ar.AirlineCode) M1 where departure LIKE ? AND destination LIKE  ?";
+				+ "        FLIGHTRECORD fr left join AirlineRanks ar on fr.carrier = ar.AirlineCode) M1 where departure LIKE ? AND destination LIKE  ? AND  SEARCHID = ? ) F1 order by score desc";
 		
 		
-		
+			}
+			else{
+				sql = ""
+						+ "SELECT distinct "
+						+ "    F1.* ,"+fuzzy
+						+ "   as score  "
+						+ "FROM "
+						+ "    (SELECT *, "
+						+ "	      TRUNCATE((M1.MAX_STOPS - F.STOPS) / (M1.MAX_STOPS - M1.MIN_STOPS), 2) AS s_Stops, "
+						+ "		  TRUNCATE(((M1.MAX_PRICE - F.price) / (M1.MAX_PRICE - M1.MIN_PRICE)), 2) AS s_price, "
+						+ "		  TRUNCATE((M1.MAX_DURATION - F.duration) / (M1.MAX_DURATION - M1.MIN_DURATION), 2) AS s_duration, "
+						+ "		  if(TRUNCATE((M1.MAX_RANK - AR.RANK) / (M1.MAX_RANK - M1.MIN_RANK), 2) is null, 0, TRUNCATE((M1.MAX_RANK - AR.RANK) / (M1.MAX_RANK - M1.MIN_RANK), 2)) as s_rank "
+						+ "    FROM "
+						+ "        FLIGHTRECORD F left join AirlineRanks AR on F.carrier = AR.AirlineCode, "
+						+ "        (SELECT "
+						+ 			sc.getMinStops()+" AS MIN_STOPS, "
+						+ 			sc.getMaxStops()+" AS MAX_STOPS, "
+						+ 			sc.getMinPrice()+" AS MIN_PRICE, "
+						+ 			sc.getMaxPrice()+" AS MAX_PRICE, "
+						+ 			sc.getMinDuration()+" AS MIN_DURATION, "
+						+ 			sc.getMaxDutation()+" AS MAX_DURATION, "
+						+ 			sc.getMaxRank()+" AS MAX_RANK, "
+						+ 			sc.getMinRank()+" AS MIN_RANK "
+						+ "             "
+						+ "		FROM "
+						+ "        FLIGHTRECORD fr left join AirlineRanks ar on fr.carrier = ar.AirlineCode) M1 where departure LIKE ? AND destination LIKE  ? AND  SEARCHID = ? ) F1 order by price";
+				
+			}
 		
 		
 		/*//String sql = "select * from flightRecord where departure LIKE ? AND destination LIKE ? ";
@@ -263,10 +307,11 @@ public class FlightRecordDAO {
 			sql+= priceCriteria;
 			System.out.println(sql);
 		}*/
-		sql+= " ) F1 order by score desc";
+		//sql+= " ) F1 order by score desc";
 		PreparedStatement pst = connection.prepareStatement(sql);
 		pst.setString(1, sc.getDeparture());
 		pst.setString(2, sc.getDestination());
+		pst.setInt(3, sc.getSearchId());
 //		if(sc.getMaxPrice()!=0 && sc.getMinPrice()!=0){
 //			pst.setFloat(3, sc.getMinPrice());
 //			pst.setFloat(4, sc.getMaxPrice());
@@ -302,4 +347,49 @@ public class FlightRecordDAO {
 		}
 	}
 	
+	public int getLatestSearchId() throws SQLException{
+		String query= "SELECT * FROM prefengine.searchId_seq";
+		PreparedStatement stmt = null;
+		ResultSet rs= null;
+		try {
+			stmt = connection.prepareStatement(query);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				int value = rs.getInt(1);
+				return value;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			if(rs!=null){
+				rs.close();
+			}
+			if(stmt!=null){
+				stmt.close();
+			}
+		}
+		return 0;
+	}
+	
+	public boolean updateSearchId(int value) throws SQLException{
+		String query = "UPDATE searchId_seq SET search_id =?";
+		PreparedStatement stmt = null;
+		try {
+			stmt = connection.prepareStatement(query);
+			stmt.setInt(1, value+1);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			if(stmt!=null){
+				stmt.close();
+			}
+		}
+		
+		return true;
+	}
 }

@@ -103,7 +103,7 @@
 							<i class="fa fa-map-marker input-icon input-icon-hightlight"></i>
 							<label>From</label> <input class="typeahead form-control"
 								name="departure" type="text"
-								value="<%out.print(list.get(0).getOriginCityName());%>" />
+								value="<%out.print(list.get(0).getOrigin());%>" />
 						</div>
 					</div>
 					<div class="col-md-3">
@@ -111,7 +111,7 @@
 							<i class="fa fa-map-marker input-icon input-icon-hightlight"></i>
 							<label>To</label> <input type="text" name="destination"
 								class="typeahead form-control"
-								value="<%out.print(list.get(0).getDestinationCityName());%>" />
+								value="<%out.print(list.get(0).getDestination());%>" />
 						</div>
 					</div>
 					<div class="col-md-2">

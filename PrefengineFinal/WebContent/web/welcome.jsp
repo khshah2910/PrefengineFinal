@@ -126,7 +126,22 @@
 											
 															
 														</ul> -->
-												
+												<form action="/Prefengine/SearchControllerForParser" method="post">
+															<ul class="nav nav-pills nav-sm nav-no-br mb10" id="flightChooseTab">
+															<li>
+																<textarea  style="text-align: left;padding-left:0; padding-top:0; padding-bottom:80px; 
+																	 width: 500px; display:inline-block; word-wrap:break-word; height: 100px; margin-right: 20px;" class="form-controlSentence" 
+																							name="requirementSentence" >I want flight from LAX at 9/21 to NYC on 9/22 cheapest flight between 100 and 200
+																				</textarea>
+															</li>
+															<li>
+																<button class="btn btn-primary btn-lg" type = "submit"    name ="getCompilerReview"  id = "reviewOfCompiler" >Review Request </button>
+															</li>
+															
+															</ul>
+															
+													
+												</form>
 												
 												<form method="post" action="/Prefengine/SearchController"
 													name="search">

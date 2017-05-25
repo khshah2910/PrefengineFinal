@@ -116,8 +116,8 @@ public class SearchService {
 			tr.setNumberOfPassengers(sc.getNumberOfPassengers());
 			result.add(tr);
 		}
-		frd.saveFlightRecordsBatch(result);
-		
+		int id =frd.saveFlightRecordsBatch(result);
+		sc.setSearchId(id);
 		frd.savePreferences(sc);
 		try {
 			result1 = frd.searchByParameters(sc);

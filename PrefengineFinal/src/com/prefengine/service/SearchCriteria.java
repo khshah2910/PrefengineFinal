@@ -1,5 +1,7 @@
 package com.prefengine.service;
 
+import java.util.ArrayList;
+
 public class SearchCriteria {
 	private String departure;
 	private String destination;
@@ -27,7 +29,8 @@ public class SearchCriteria {
 	private String fuzzyString;
 	private String personString;
 	private String userPreferenceString;
-	
+	private int searchId;
+	private ArrayList<String> nonFunctionalAttributes;
 	public String getDeparture() {
 		return departure;
 	}
@@ -184,5 +187,18 @@ public class SearchCriteria {
 	public void setUserPreferenceString(String userPreferenceString) {
 		this.userPreferenceString = userPreferenceString;
 	}
+	public int getSearchId() {
+		return searchId;
+	}
+	public void setSearchId(int searchId) {
+		this.searchId = searchId;
+	}
+	public ArrayList<String> getNonFunctionalAttributes() {
+		return nonFunctionalAttributes;
+	}
+	public void setNonFunctionalAttributes(ArrayList<String> nonFunctionalAttributes) {
+		this.nonFunctionalAttributes = nonFunctionalAttributes;
+	}
+	
 	
 }
